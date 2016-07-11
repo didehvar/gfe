@@ -1,7 +1,11 @@
 <template>
   <div id="app">
     <img class="logo" src="./assets/logo.png">
-    <hello></hello>
+    <p>  
+      <a v-link="{ path: '/' }">Home</a>
+      <a v-link="{ path: '/login' }">Login</a>
+    </p>
+    <router-view></router-view>
     <p>
       Welcome to your Vue.js app!
     </p>
@@ -23,12 +27,7 @@
 </template>
 
 <script>
-import Hello from './components/Hello';
-
 export default {
-  components: {
-    Hello
-  }
 };
 </script>
 
