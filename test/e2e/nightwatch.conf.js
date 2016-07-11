@@ -3,6 +3,7 @@ module.exports = {
   'src_folders': ['test/e2e/specs'],
   'output_folder': 'test/e2e/reports',
   'custom_assertions_path': ['test/e2e/custom-assertions'],
+  'globals_path': 'test/e2e/globals.js',
 
   'selenium': {
     'start_process': true,

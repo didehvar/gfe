@@ -3,7 +3,7 @@
 
 module.exports = {
   'default e2e tests': browser => {
-    browser.url('http://localhost:8080')
+    browser.url(browser.globals.url)
       .waitForElementVisible('#app', 5000)
       .assert.elementPresent('.logo')
       .assert.elementNotPresent('h1')
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   'login page': browser => {
-    browser.url('http://localhost:8080/login')
+    browser.url(browser.globals.url + 'login')
       .waitForElementVisible('#app', 5000)
       .assert.elementPresent('.logo')
       .assert.containsText('h1', 'Hello World!')
