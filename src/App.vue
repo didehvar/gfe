@@ -1,9 +1,11 @@
 <template>
   <div id="app">
     <img class="logo" src="./assets/logo.png">
-    <p>  
+    <p>
       <a v-link="{ path: '/' }">Home</a>
       <a v-link="{ path: '/login' }">Login</a>
+      <a v-link="{ path: '/display' }">Display</a>
+      <a v-link="{ path: '/increment' }">Increment</a>
     </p>
     <router-view></router-view>
     <p>
@@ -27,7 +29,10 @@
 </template>
 
 <script>
+import store from './vuex/store';
+
 export default {
+  store
 };
 </script>
 
