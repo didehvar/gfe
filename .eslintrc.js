@@ -9,6 +9,9 @@ module.exports = {
   plugins: [
     'html'
   ],
+  globals: {
+    localStorage: true
+  },
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions
@@ -16,6 +19,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // require semi-colons
-    semi: ['error', 'always']
+    semi: [2, 'always'],
+
+    'space-before-function-paren':  [2, 'never']
   }
 }
