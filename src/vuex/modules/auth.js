@@ -3,7 +3,8 @@ import {
   AUTH_START,
   AUTH_VALID,
   AUTH_INVALID,
-  AUTH_STORE_USER
+  AUTH_STORE_USER,
+  AUTH_CLEAR
 } from '../mutation-types';
 
 export const authKeys = ['token', 'clientId', 'userId', 'expiry'];
@@ -27,6 +28,11 @@ const mutations = {
   },
   [AUTH_STORE_USER]: (state, user) => {
     state.user = user;
+  },
+  [AUTH_CLEAR]: (state) => {
+    state.authenticated = false;
+    state.auth = {};
+    state.user = {};
   }
 };
 

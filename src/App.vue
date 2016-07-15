@@ -36,12 +36,13 @@
 
 <script>
 import store from './vuex/store';
+import { authenticated } from './vuex/getters';
 
 export default {
   store,
   vuex: {
     getters: {
-      authenticated: state => state.auth.authenticated,
+      authenticated,
       user: state => state.auth.user
     }
   }

@@ -49,6 +49,7 @@ router.beforeEach(({ to, next }) => {
     .then(response => {
       store.dispatch(AUTH_VALID);
       store.dispatch(AUTH_STORE_USER, response.json().data);
+      window.history.replaceState({}, '', window.location.href.split('?')[0]);
     })
     .catch(err => store.dispatch(AUTH_INVALID, err))
     .finally(() => next());
