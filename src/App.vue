@@ -12,6 +12,12 @@
       Welcome to your Vue.js app!
     </p>
     <p>
+      Authenticated? {{ authenticated }}
+    </p>
+    <p>
+      Email {{ user.email }}
+    </p>
+    <p>
       To get a better understanding of how this boilerplate works, check out
       <a href="http://vuejs-templates.github.io/webpack" target="_blank">its documentation</a>.
       It is also recommended to go through the docs for
@@ -32,7 +38,13 @@
 import store from './vuex/store';
 
 export default {
-  store
+  store,
+  vuex: {
+    getters: {
+      authenticated: state => state.auth.authenticated,
+      user: state => state.auth.user
+    }
+  }
 };
 </script>
 
