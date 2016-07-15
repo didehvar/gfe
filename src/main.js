@@ -9,7 +9,7 @@ import Increment from './components/Increment';
 import store from './vuex/store';
 import { api } from './config';
 import { AUTH_START, AUTH_VALID, AUTH_INVALID, AUTH_STORE_USER } from './vuex/mutation-types';
-import { authKeys } from './vuex/modules/auth';
+import { VALID_AUTH_KEYS } from './vuex/modules/auth';
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
@@ -34,7 +34,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach(({ to, next }) => {
-  if (_.isEmpty(to.query) || !_.some(to.query, (value, key) => authKeys.indexOf(key) >= 0)) {
+  if (_.isEmpty(to.query) || !_.some(to.query, (value, key) => VALID_AUTH_KEYS.indexOf(key) >= 0)) {
     return next();
   }
 

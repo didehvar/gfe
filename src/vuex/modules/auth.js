@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import storage from '../storage';
 import {
   AUTH_START,
   AUTH_VALID,
@@ -7,32 +8,39 @@ import {
   AUTH_CLEAR
 } from '../mutation-types';
 
-export const authKeys = ['token', 'clientId', 'userId', 'expiry'];
+export const VALID_AUTH_KEYS = ['token', 'clientId', 'userId', 'expiry'];
 
-const state = {
-  auth: {},
-  user: {},
-  authenticated: false
-};
+const AUTH_KEY = 'auth';
+const USER_KEY = 'user';
+const AUTHENTICATED_KEY = 'authenticated';
+
+const STATE_KEYS = [
+  { name: AUTH_KEY },
+  { name: USER_KEY },
+  { name: AUTHENTICATED_KEY, defaultValue: false }
+];
+
+const state = {};
+_.each(STATE_KEYS, o => storage.get(state, o.name, o.defaultValue));
 
 const mutations = {
   [AUTH_START]: (state, auth) => {
-    _.each(_.keys(auth), k => authKeys.indexOf(k) >= 0 || console.error(`Invalid auth state key ${k}`));
-    state.auth = auth;
+    _.each(_.keys(auth), k => VALID_AUTH_KEYS.indexOf(k) >= 0 || console.error(`Invalid auth state key ${k}`));
+    storage.set(state, AUTH_KEY, auth);
   },
   [AUTH_VALID]: (state) => {
-    state.authenticated = true;
+    storage.set(state, AUTHENTICATED_KEY, true);
   },
   [AUTH_INVALID]: (state, err) => {
-    state.authenticated = false;
+    storage.set(state, AUTHENTICATED_KEY, false);
   },
   [AUTH_STORE_USER]: (state, user) => {
-    state.user = user;
+    storage.set(state, USER_KEY, user);
   },
   [AUTH_CLEAR]: (state) => {
-    state.authenticated = false;
-    state.auth = {};
-    state.user = {};
+    storage.set(state, AUTHENTICATED_KEY, false);
+    storage.set(state, AUTH_KEY, {});
+    storage.set(state, USER_KEY, {});
   }
 };
 
