@@ -1,8 +1,7 @@
 import _ from 'lodash';
 import storage from '../storage';
 import {
-  AUTH_START,
-  AUTH_VALID,
+  AUTH_STORE,
   AUTH_INVALID,
   AUTH_STORE_USER,
   AUTH_CLEAR
@@ -24,11 +23,9 @@ const state = {};
 _.each(STATE_KEYS, o => storage.get(state, o.name, o.defaultValue));
 
 const mutations = {
-  [AUTH_START]: (state, auth) => {
+  [AUTH_STORE]: (state, auth) => {
     _.each(_.keys(auth), k => VALID_AUTH_KEYS.indexOf(k) >= 0 || console.error(`Invalid auth state key ${k}`));
     storage.set(state, AUTH_KEY, auth);
-  },
-  [AUTH_VALID]: (state) => {
     storage.set(state, AUTHENTICATED_KEY, true);
   },
   [AUTH_INVALID]: (state, err) => {

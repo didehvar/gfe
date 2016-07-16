@@ -37,13 +37,26 @@
 <script>
 import store from './vuex/store';
 import { authenticated } from './vuex/getters';
+import { interceptAuthHeaders, oauthLogin } from './vuex/actions';
 
 export default {
   store,
+  created() {
+    this.interceptAuthHeaders();
+
+    const query = this.$route.query;
+    if (query && query.auth_token) {
+      this.oauthLogin(query);
+    }
+  },
   vuex: {
     getters: {
       authenticated,
       user: state => state.auth.user
+    },
+    actions: {
+      interceptAuthHeaders,
+      oauthLogin
     }
   }
 };
