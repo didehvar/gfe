@@ -2,9 +2,10 @@ import _ from 'lodash';
 import storage from '../storage';
 import {
   AUTH_STORE,
+  AUTH_CLEAR,
   AUTH_INVALID,
   AUTH_STORE_USER,
-  AUTH_CLEAR
+  AUTH_LOGOUT_ERROR
 } from '../mutation-types';
 
 export const VALID_AUTH_KEYS = ['token', 'clientId', 'userId', 'expiry'];
@@ -38,6 +39,9 @@ const mutations = {
     storage.set(state, AUTHENTICATED_KEY, false);
     storage.set(state, AUTH_KEY, {});
     storage.set(state, USER_KEY, {});
+  },
+  [AUTH_LOGOUT_ERROR]: (state, err) => {
+    console.error(err); // todo: better error
   }
 };
 

@@ -4,7 +4,8 @@ import { INCREMENT,
   AUTH_CLEAR,
   AUTH_STORE,
   AUTH_INVALID,
-  AUTH_STORE_USER
+  AUTH_STORE_USER,
+  AUTH_LOGOUT_ERROR
 } from './mutation-types';
 
 export const incrementCounter = ({ dispatch, state }) => {
@@ -16,11 +17,11 @@ export const interceptAuthHeaders = ({ dispatch, state }) => {
     if (state.auth.auth) {
       const { token, clientId, userId, expiry } = state.auth.auth;
 
-      Vue.http.headers.common['token-type'] = 'Bearer';
-      Vue.http.headers.common['access-token'] = token;
-      Vue.http.headers.common.client = clientId;
-      Vue.http.headers.common.uid = userId;
-      Vue.http.headers.common.expiry = expiry;
+      request.headers['token-type'] = 'Bearer';
+      request.headers['access-token'] = token;
+      request.headers.client = clientId;
+      request.headers.uid = userId;
+      request.headers.expiry = expiry;
     }
 
     next(response => {
@@ -36,11 +37,14 @@ export const interceptAuthHeaders = ({ dispatch, state }) => {
   });
 };
 
-export const validateToken = ({ dispatch, state }) => {
+export const validateToken = ({ dispatch, state }, replaceUrl = false) => {
   Vue.http.get(api.auth.validate)
     .then(response => {
       dispatch(AUTH_STORE_USER, response.json().data);
-      window.history.replaceState({}, '', window.location.href.split('?')[0]);
+
+      if (replaceUrl) { // remove auth query params
+        window.history.replaceState({}, '', window.location.href.split('?')[0]);
+      }
     })
     .catch(err => dispatch(AUTH_INVALID, err));
 };
@@ -53,9 +57,13 @@ export const oauthLogin = ({ dispatch, state }, query) => {
     expiry: query.expiry
   });
 
-  validateToken({ dispatch, state });
+  validateToken({ dispatch, state }, true);
 };
 
 export const logout = ({ dispatch }) => {
-  dispatch(AUTH_CLEAR);
+  Vue.http.delete(api.auth.logout)
+    .then(response => {
+      dispatch(AUTH_CLEAR);
+    })
+    .catch(err => dispatch(AUTH_LOGOUT_ERROR, err));
 };

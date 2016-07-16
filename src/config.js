@@ -9,6 +9,7 @@ export const api = {
   auth: _.mapValues({
     base: '',
     validate: 'validate_token',
-    strava: 'strava'
+    strava: 'strava',
+    logout: 'sign_out'
   }, url => `${apiBase}${authBase}${url}`)
 };
