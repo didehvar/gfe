@@ -1,16 +1,12 @@
 import Vue from 'vue';
 import { api } from '../config';
-import { INCREMENT,
+import {
   AUTH_CLEAR,
   AUTH_STORE,
   AUTH_INVALID,
   AUTH_STORE_USER,
   AUTH_LOGOUT_ERROR
 } from './mutation-types';
-
-export const incrementCounter = ({ dispatch, state }) => {
-  dispatch(INCREMENT, 1);
-};
 
 export const interceptAuthHeaders = ({ dispatch, state }) => {
   Vue.http.interceptors.push((request, next) => {
